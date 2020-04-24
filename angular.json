@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "i18n-manager"
+  "defaultProject": "i18n-manager",
+  "cli": {
+    "analytics": "112891c8-2854-4e4b-8110-9745a7690f32"
+  }
 }

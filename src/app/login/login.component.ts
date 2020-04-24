@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -6,16 +7,38 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+
+  constructor(public authService : AuthService) { }
   
   user = {
     email: '',
     password: '',
   }
-  constructor() { }
+  
 
   ngOnInit(): void {
+
+   
   }
+
+  
   onSubmit(){
-    console.log("User", this.user);
+    this.authService.login(this.user.email , this.user.password)
+    if(this.authService.user)
+    {
+      console.log("hello");
+      
+    }
+    else{
+      console.log("no hello");
+      
+    }
+
+  
+  }
+
+  logout()
+  {
+    this.authService.logout();
   }
 }
