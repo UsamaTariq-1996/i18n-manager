@@ -1,7 +1,7 @@
 <mat-card>
     <mat-card-title>Login</mat-card-title>
 <mat-card-content>
-<form>
+<form  *ngIf="!(authService.user | async)">
   <p>
     <mat-form-field>
       <input type="text" matInput placeholder="Username" >
@@ -16,7 +16,7 @@
 
 
   <div class="button">
-    <button type="submit" mat-button>Login</button>
+    <button type="submit" (click)="login()" mat-button>Login</button>
   </div>
 
 </form>
