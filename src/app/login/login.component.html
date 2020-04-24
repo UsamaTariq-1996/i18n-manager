@@ -1,11 +1,7 @@
 <mat-card>
     <mat-card-title>Login</mat-card-title>
 <mat-card-content>
-<<<<<<< HEAD
-<form  *ngIf="!(authService.user | async)">
-=======
-<form (ngSubmit)="onSubmit()">
->>>>>>> bcb79ba04dbbc73d697c4664412df8f28bd2c8a8
+<form (ngSubmit)="onSubmit()" *ngIf="!(authService.user | async)">
   <p>
     <mat-form-field>
       <input type="text" matInput [(ngModel)]="user.email" name="email" placeholder="Email">
@@ -20,9 +16,13 @@
 
 
   <div class="button">
-    <button type="submit" (click)="login()" mat-button>Login</button>
+    <button type="submit"  mat-button>Login</button>
   </div>
-
+ 
 </form>
+<div class="button">
+  <button type="submit" (click)="logout()" *ngIf="authService.user | async" mat-button>Logout</button>
+</div>
+
 </mat-card-content>
 </mat-card>
