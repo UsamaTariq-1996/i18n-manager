@@ -8,8 +8,10 @@ import { FormsModule } from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatToolbarModule } from '@angular/material/toolbar'; 
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
+import {MatSelectModule} from '@angular/material/select';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireStorageModule } from 'angularfire2/storage';
@@ -34,8 +36,10 @@ import { NavbarsComponent } from './navbars/navbars.component';
     MatSliderModule,
     MatCardModule,
     MatFormFieldModule,
+    MatToolbarModule,
     MatInputModule,
     MatButtonModule,
+    MatSelectModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
