@@ -1,1 +1,14 @@
-<p>navbars works!</p>
+<mat-toolbar color="primary">
+   <!--  <span><img src="/assets/images/logo.png" height=30 width=41></span> -->
+   <span>Show</span>
+   <mat-form-field>
+
+    <mat-select>
+      <mat-option *ngFor="let type of types" [value]="type.value">
+        {{type.viewValue}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+    <a mat-button (click)="logout()"><span class="logout-btn fa fa-sign-in fa-lg"></span> Logout</a>
+  
+  </mat-toolbar>
