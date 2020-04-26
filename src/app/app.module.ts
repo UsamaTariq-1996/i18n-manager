@@ -12,6 +12,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
+import {MatIconModule} from '@angular/material/icon';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireStorageModule } from 'angularfire2/storage';
@@ -20,6 +22,8 @@ import { environment } from 'src/environments/environment';
 import {AuthService} from './auth.service';
 import { FileuploadComponent } from './fileupload/fileupload.component';
 import { NavbarsComponent } from './navbars/navbars.component';
+
+import 'hammerjs';
 
 @NgModule({
   declarations: [
@@ -40,6 +44,8 @@ import { NavbarsComponent } from './navbars/navbars.component';
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
+    MatIconModule,
+    FlexLayoutModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
