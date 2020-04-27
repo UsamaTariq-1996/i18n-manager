@@ -20,7 +20,7 @@ import { environment } from 'src/environments/environment';
 import {AuthService} from './auth.service';
 import { FileuploadComponent } from './fileupload/fileupload.component';
 import { NavbarsComponent } from './navbars/navbars.component';
-
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +43,8 @@ import { NavbarsComponent } from './navbars/navbars.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
-    AngularFireStorageModule 
+    AngularFireStorageModule,
+    HttpClientModule 
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

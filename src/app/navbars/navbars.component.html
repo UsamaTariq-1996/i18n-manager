@@ -12,3 +12,8 @@
     <a mat-button (click)="logout()"><span class="logout-btn fa fa-sign-in fa-lg"></span> Logout</a>
   
   </mat-toolbar>
+
+  <div *ngFor="let file of todo$ | async">
+	<h3>Upload of {{file.name}} DONE and saved in firestore</h3>
+	<p>url: {{file.url}} </p>
+</div>
