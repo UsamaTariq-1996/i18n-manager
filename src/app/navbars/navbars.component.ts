@@ -111,7 +111,11 @@ export class NavbarsComponent implements OnInit {
   logout(){
     this.router.navigateByUrl('');
   }
-    
+   
+  itemClick(node)
+  {
+    console.log( node.type, "game on ha")
+  }
 
      getUrlData()
     {
