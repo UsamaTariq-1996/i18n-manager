@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router, NavigationStart } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,18 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'i18n-manager';
+  showHead: boolean = false;
+
+constructor(private router: Router) {
+  // on route change to '/login', set the variable showHead to false
+    router.events.forEach((event) => {
+      if (event instanceof NavigationStart) {
+        if (event['url'] == '/') {
+          this.showHead = false;
+        } else {
+          this.showHead = true;
+        }
+      }
+    });
+  }
 }

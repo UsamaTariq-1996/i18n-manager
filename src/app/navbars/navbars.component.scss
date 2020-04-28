@@ -1,17 +1,31 @@
-.logout-btn{
-    float: right;
-}
 .example-tree-invisible {
     display: none;
   }
-  .example-tree-progress-bar {
-    margin-left: 30px;
-  }
-  .example-tree ul,
+   .example-tree{
+    height: 100%;
+    width: 270px;
+    position: absolute;
+    z-index: 1;
+    right: auto;
+    font-family: 'Work Sans', sans-serif;
+    //overflow-x: hidden;
+    padding-top: 20px;
+
+    transition: 0.5s;
+
+   overflow-y: auto;
+   scrollbar-width: thin;
+   box-shadow:  0px 0px 29px rgba(0, 0, 0, 0.432);
+   }
+   .mat-tree-node:hover{
+     background-color: lightgray;
+   }
+   .example-tree ul,
   .example-tree li {
-    margin-top: 0;
-    margin-bottom: 0;
+    margin:0;
+    
     list-style-type: none;
+    font-size: 20px;
   }
 .mat-icon {
     font-size: 15px;

@@ -7,9 +7,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {path:'',component:LoginComponent},
-  {path:'mainscreen',component:NavbarsComponent,children:[
-    {path:'contents',component:FileuploadComponent}
-  ]}
+  {path:'contents',component:FileuploadComponent}
 ];
 
 @NgModule({
