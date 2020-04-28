@@ -1,16 +1,23 @@
 <mat-toolbar color="primary">
-   <!--  <span><img src="/assets/images/logo.png" height=30 width=41></span> -->
-   <span>Show</span>
-   <mat-form-field>
-
-    <mat-select>
+    
+   <span style="font-size:15px;">Show</span>
+   <mat-form-field style="margin-left:5px;">
+    <mat-select style="font-size:15px;">
       <mat-option *ngFor="let type of types" [value]="type.value">
         {{type.viewValue}}
       </mat-option>
     </mat-select>
   </mat-form-field>
-    <a mat-button (click)="logout()"><span class="logout-btn fa fa-sign-in fa-lg"></span> Logout</a>
-  
+
+
+  <span class="flex-spacer"></span>
+  <mat-form-field>
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput type="search"  placeholder="search here">
+  </mat-form-field>
+
+   <span class="flex-spacer"></span>
+    <a mat-button (click)="logout()"><span class="logout-btn fa fa-sign-out"></span> Logout</a>
   </mat-toolbar>
 
   
@@ -40,3 +47,4 @@
     </li>
   </mat-nested-tree-node>
 </mat-tree>
+
