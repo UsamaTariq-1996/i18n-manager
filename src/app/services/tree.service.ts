@@ -21,8 +21,7 @@ export class TreeService {
       {
         res.forEach(element => {
           this.jsonUrl = element.url;
-          console.log(this.jsonUrl , "ASdasdas");
-          
+                   
         });
       })
    }
@@ -33,7 +32,7 @@ export class TreeService {
       {
         res.forEach(element => {
           this.jsonUrl = element.url;
-          console.log(this.jsonUrl , "ASdasdas");
+        
       
         });
       })
