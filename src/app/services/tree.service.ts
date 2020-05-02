@@ -20,31 +20,17 @@ export class TreeService {
     this.todo$.subscribe(res=>
       {
         res.forEach(element => {
-          this.jsonUrl = element.url;
+          this.jsonUrl = element
                    
         });
       })
    }
 
-   geturl()
-   {
-     this.todo$.subscribe(res=>
-      {
-        res.forEach(element => {
-          this.jsonUrl = element.url;
-        
-      
-        });
-      })
-   }
- 
-   getData():Observable<any> { 
- console.log(this.jsonUrl, "Data");   
-   return  this.http.get(this.jsonUrl)
+  
   
   
  
    
   }
    
-}
+
