@@ -24,6 +24,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { MatTreeModule } from "@angular/material/tree";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatIconModule } from "@angular/material/icon";
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { MatIconModule } from "@angular/material/icon";
     MatTreeModule,
     MatProgressBarModule,
     MatIconModule,
+    ReactiveFormsModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],

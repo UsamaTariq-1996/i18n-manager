@@ -13,6 +13,7 @@ import { MatTreeNestedDataSource } from "@angular/material/tree";
 import { NestedTreeControl } from "@angular/cdk/tree";
 import { ArrayType } from "@angular/compiler";
 import * as _ from 'lodash';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 
 export class FileNode {
   children: FileNode[];
@@ -27,6 +28,7 @@ var TREE_DATA: string;
 export class FileDatabase {
   dataChange = new BehaviorSubject<FileNode[]>([]);
   cross : any[] = [];
+
   get data(): FileNode[] {
     return this.dataChange.value;
   }
@@ -114,6 +116,10 @@ export class NavbarsComponent implements OnInit {
   todoCollectionRef: AngularFirestoreCollection<any>;
   todo$: Observable<any[]>;
   fileList: any[];
+  showcontent: boolean = false;
+  dynamicForm: FormGroup;
+  submitted = false;
+  public headers: any[] = [];
   imageDetailList: AngularFireList<any>;
   types = [
     { value: "all", viewValue: "All" },
@@ -133,7 +139,8 @@ export class NavbarsComponent implements OnInit {
     private router: Router,
     private afs: AngularFirestore,
     private storage: AngularFireStorage,
-    private treeService: TreeService
+    private treeService: TreeService,
+    private formBuilder: FormBuilder
   ) {
     this.todoCollectionRef = this.afs.collection<any>("localization");
     this.todo$ = this.todoCollectionRef.valueChanges();
@@ -164,14 +171,33 @@ export class NavbarsComponent implements OnInit {
 
   ngOnInit(): void {
     //  this.getUrlData()
+    this.dynamicForm = this.formBuilder.group({
+      tickets: new FormArray([])
+  });
   }
+  get f() { return this.dynamicForm.controls; }
+  get t() { return this.f.tickets as FormArray; }
+
   logout() {
     this.router.navigateByUrl("");
   }
    
 
   itemClick(node) {
+    console.log("node",node)
     console.log(node.type, "game on ha");
+    this.showcontent = true;
+    if (this.t.length < this.data_tree.length) {
+        for (let i = this.t.length; i < this.data_tree.length; i++) {
+            this.t.push(this.formBuilder.group({
+                name: [node.type],   
+            }));
+        }
+    } else {
+        for (let i = this.t.length; i >= this.data_tree.length; i--) {
+            this.t.removeAt(i);
+        }
+    }
   }
 
   //  getUrlData()
