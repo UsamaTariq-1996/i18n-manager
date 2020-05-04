@@ -1,5 +1,5 @@
 import { Component, OnInit, Injectable } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router, NoPreloading } from "@angular/router";
 import {
   AngularFirestoreCollection,
   AngularFirestore,
@@ -130,6 +130,7 @@ export class NavbarsComponent implements OnInit {
   JsonArray: any;
   jsonurl: any;
   temp: any[] = [];
+  nestsort : any[] = []
   nestedTreeControl: NestedTreeControl<FileNode>;
   nestedDataSource: MatTreeNestedDataSource<FileNode>;
   data_tree: any[] = [];
@@ -163,7 +164,7 @@ export class NavbarsComponent implements OnInit {
 
        //The depth level specifying how deep a nested array structure should be flattened. Defaults to 1.
 
-       console.log(this.temp , "tree data");
+       console.log(this.data_tree , "tree data");
       TREE_DATA = JSON.stringify(this.data_tree);
     });
   }
@@ -184,13 +185,24 @@ export class NavbarsComponent implements OnInit {
    
 
   itemClick(node) {
-    console.log("node",node)
+    this.nestsort = [];
     console.log(node.type, "game on ha");
     this.showcontent = true;
-    if (this.t.length < this.data_tree.length) {
-        for (let i = this.t.length; i < this.data_tree.length; i++) {
-            this.t.push(this.formBuilder.group({
-                name: [node.type],   
+    var i = 0
+     console.log(this.t.value, "asdasd");
+     this.t.clear()
+     
+   const aisa = node.filename
+    if (this.t.length <= this.data_tree.length) {
+        for (let i = 0 ; i < this.data_tree.length; i++) {
+          this.temp1.push(this.finditem(this.data_tree , aisa , node.filename))
+        console.log(this.temp1 , "maeoo myjhga maoro");
+            this.nestsort.push(Object.assign({}, ...function _flatten(o) { return [].concat(...Object.keys(o).map(k => typeof o[k] === 'object' ? _flatten(o[k]) : ({[k]: o[k]})))}(this.data_tree[i])))
+          console.log(this.nestsort , "makwat");
+          
+
+                    this.t.push(this.formBuilder.group({
+                name: [this.nestsort[i][aisa]],   
             }));
         }
     } else {
@@ -199,7 +211,14 @@ export class NavbarsComponent implements OnInit {
         }
     }
   }
-
+  finditem ( arr , aisa , type)
+  {
+    for (let i = 0 ; i <arr.length; i++) {
+          return arr[i][aisa];
+          
+      
+  }
+}
   //  getUrlData()
   // {
 
