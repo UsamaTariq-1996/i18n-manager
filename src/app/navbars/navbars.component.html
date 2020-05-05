@@ -58,23 +58,26 @@
 
 </mat-tree>
 
-<div *ngIf="showcontent" class="main-card" >
+<div *ngIf="showcontent" class="main-card">
   
-  <form [formGroup]="dynamicForm" (change)="itemClick($event)">
-  <mat-card class="card-body" fxFlex="95">
-    <div class="card m-3">
-      <div *ngFor="let ticket of t.controls; let i = index" class="list-group list-group-flush">
-          <div class="list-group-item">
-             
-              <div [formGroup]="ticket" class="form-row">
-                  <div class="form-group col-6">
-                      
-                      <input type="text" formControlName="name" class="form-control" />
+  <form [formGroup]="dynamicForm" (change)="itemClick($event)" style="width: 300px;">
+    <mat-card style="text-align: center;">
+      <mat-card-title>
+        i18n-manager
+      </mat-card-title>
+      <mat-card-subtitle>Displaying dynamic tree data</mat-card-subtitle>
+      <div *ngFor="let ticket of t.controls; let i = index">
+              <div [formGroup]="ticket">
+                  <div>
+                      <mat-form-field>
+                      <input matInput type="text" placeholder="Name" formControlName="name" class="form-control"/>
+                    </mat-form-field>
+                    <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
                   </div>
               </div>
-          </div>
-      </div>
-  </div>
+      </div> 
   </mat-card>
 </form>
 </div>
