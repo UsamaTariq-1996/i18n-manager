@@ -17,7 +17,8 @@
   </mat-form-field>
 
    <span class="flex-spacer"></span>
-    <a mat-button (click)="logout()"><span class="logout-btn fa fa-sign-out"></span> Logout</a>
+    <a mat-button *ngIf="authService.isLoggedIn == true"  (click)="logout()"><span class="logout-btn fa fa-sign-out"></span> Logout</a>
+    <a mat-button  [routerLink]="['/login']"><span class="logout-btn fa fa-sign-out"></span> Login</a>
   </mat-toolbar>
 
   
@@ -60,7 +61,7 @@
 
 <div *ngIf="showcontent" class="main-card">
   
-  <form [formGroup]="dynamicForm" (change)="itemClick($event)" style="width: 300px;">
+  <form [formGroup]="dynamicForm" (change)="itemClick($event)" style="width: 500px;">
     <mat-card style="text-align: center;">
       <mat-card-title>
         i18n-manager
