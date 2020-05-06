@@ -12,6 +12,7 @@ import { switchMap } from 'rxjs/operators';
 })
 export class AuthService {
   user: Observable<firebase.User>;
+  userData: firebase.User;
 
   constructor(private firebaseAuth: AngularFireAuth ,  private afs: AngularFirestore,
     private router: Router) {
@@ -19,6 +20,8 @@ export class AuthService {
       switchMap(user =>{
         if(user)
         {
+        this.userData = user;
+        localStorage.setItem('user', JSON.stringify(this.userData));
           return this.afs.doc<firebase.User>(`users/${user.uid}`).valueChanges(); 
         }
         else
@@ -29,7 +32,10 @@ export class AuthService {
     );
    }
 
-  
+   get isLoggedIn(): boolean {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return (user !== null && user.emailVerified !== false) ? true : false;
+  }
 
    async login(email : string , password : string)
    {

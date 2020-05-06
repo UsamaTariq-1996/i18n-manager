@@ -12,6 +12,7 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
 import { MatSelectModule } from "@angular/material/select";
+import { MatMenuModule} from '@angular/material/menu';
 import { AngularFireModule } from "angularfire2";
 import { AngularFirestoreModule } from "angularfire2/firestore";
 import { AngularFireStorageModule } from "angularfire2/storage";
@@ -53,6 +54,7 @@ import {MatBadgeModule} from '@angular/material/badge';
     AngularFireStorageModule,
     HttpClientModule,
     MatTreeModule,
+    MatMenuModule,
     MatProgressBarModule,
     MatIconModule,
     ReactiveFormsModule,

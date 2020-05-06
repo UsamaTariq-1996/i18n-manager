@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,7 +9,7 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(public authService : AuthService) { }
+  constructor(public authService : AuthService,private router: Router) { }
   
   user = {
     email: '',
@@ -21,7 +22,9 @@ export class LoginComponent implements OnInit {
    
   }
 
-  
+  mainPage(){
+    this.router.navigateByUrl('')
+  }
   onSubmit(){
     this.authService.login(this.user.email , this.user.password)
     if(this.authService.user)
@@ -31,7 +34,6 @@ export class LoginComponent implements OnInit {
     }
     else{
       console.log("no hello");
-      
     }
 
   
