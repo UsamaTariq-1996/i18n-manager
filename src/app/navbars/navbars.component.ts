@@ -90,10 +90,13 @@ export class FileDatabase {
       const value = obj[key];
       const node = new FileNode();
       node.filename = key;
+      
 
       if (value != null) {
         if (typeof value === "object") {
          
+            console.log(key , "+1");
+            
           
           node.children = this.buildFileTree(value, level + 1);
         } else {
@@ -126,6 +129,7 @@ export class NavbarsComponent implements OnInit {
     { value: "some", viewValue: "Some" },
     { value: "none", viewValue: "None" },
   ];
+  count : number = 0;
   downloadURL: Observable<any>;
   JsonArray: any;
   jsonurl: any;
@@ -135,6 +139,7 @@ export class NavbarsComponent implements OnInit {
   nestedDataSource: MatTreeNestedDataSource<FileNode>;
   data_tree: any[] = [];
   temp1: any[] = [];
+
   constructor(
     database: FileDatabase,
     private router: Router,
@@ -143,6 +148,7 @@ export class NavbarsComponent implements OnInit {
     private treeService: TreeService,
     private formBuilder: FormBuilder
   ) {
+    this.count = 0;
     this.todoCollectionRef = this.afs.collection<any>("localization");
     this.todo$ = this.todoCollectionRef.valueChanges();
 
@@ -152,20 +158,23 @@ export class NavbarsComponent implements OnInit {
     database.dataChange.subscribe(
       (data) => (this.nestedDataSource.data = data)
     );
-
-    this.todo$.subscribe(res =>{
+       this.todo$.subscribe(res =>{
       
     })
     this.todo$.subscribe((res) => {
-      res.forEach((element) => {
-        this.data_tree.push(element);
-      }); 
+      // res.forEach((element) => {
+        this.data_tree =res;
+        res.forEach(element => {
+         
+        });
+      // }); 
 
 
        //The depth level specifying how deep a nested array structure should be flattened. Defaults to 1.
 
        console.log(this.data_tree , "tree data");
       TREE_DATA = JSON.stringify(this.data_tree);
+      
     });
   }
   
@@ -193,10 +202,8 @@ export class NavbarsComponent implements OnInit {
      this.t.clear()
      
    const aisa = node.filename
-    if (this.t.length <= this.data_tree.length) {
+   
         for (let i = 0 ; i < this.data_tree.length; i++) {
-          this.temp1.push(this.finditem(this.data_tree , aisa , node.filename))
-        console.log(this.temp1 , "maeoo myjhga maoro");
             this.nestsort.push(Object.assign({}, ...function _flatten(o) { return [].concat(...Object.keys(o).map(k => typeof o[k] === 'object' ? _flatten(o[k]) : ({[k]: o[k]})))}(this.data_tree[i])))
           console.log(this.nestsort , "makwat");
           
@@ -204,12 +211,10 @@ export class NavbarsComponent implements OnInit {
                     this.t.push(this.formBuilder.group({
                 name: [this.nestsort[i][aisa]],   
             }));
+        
         }
-    } else {
-        for (let i = this.t.length; i >= this.data_tree.length; i--) {
-            this.t.removeAt(i);
-        }
-    }
+  
+    
   }
   finditem ( arr , aisa , type)
   {
