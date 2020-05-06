@@ -26,6 +26,7 @@ import { MatTreeModule } from "@angular/material/tree";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatIconModule } from "@angular/material/icon";
 import { ReactiveFormsModule } from '@angular/forms';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatMenuModule,
     MatProgressBarModule,
     MatIconModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatBadgeModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],
