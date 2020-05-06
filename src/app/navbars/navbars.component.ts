@@ -4,7 +4,7 @@ import {
   AngularFirestoreCollection,
   AngularFirestore,
 } from "angularfire2/firestore";
-import { Observable, BehaviorSubject } from "rxjs";
+import { Observable, BehaviorSubject, merge } from "rxjs";
 import { AngularFireList } from "angularfire2/database";
 import { AngularFireStorage } from "angularfire2/storage";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
@@ -15,6 +15,10 @@ import { ArrayType } from "@angular/compiler";
 import * as _ from 'lodash';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { deepEqual } from 'assert';
+import * as deepmerge from 'deepmerge';
+import { map } from 'rxjs/operators';
+
 
 export class FileNode {
   children: FileNode[];
@@ -43,39 +47,39 @@ export class FileDatabase {
     setTimeout(() => {
       const dataObject = JSON.parse(TREE_DATA);
 
-  
-      for(var i = 0 ; i < dataObject.length ; i++)
-      {
-        var lengths =  Object.assign({}, ...function _flatten(o) { return [].concat(...Object.keys(o).map(k => typeof o[k] === 'object' ? _flatten(o[k]) : ({[k]: o[k]})))}(dataObject[i]))
-         this.cross.push(Object.keys(lengths).length)
+      
+      
+      // for(var i = 0 ; i < dataObject.length ; i++)
+      // {
+      //   var lengths =  Object.assign({}, ...function _flatten(o) { return [].concat(...Object.keys(o).map(k => typeof o[k] === 'object' ? _flatten(o[k]) : ({[k]: o[k]})))}(dataObject[i]))
+      //    this.cross.push(Object.keys(lengths).length)
+        
+      //   if(this.cross[i-1] != null)
         
         
-        if(this.cross[i-1] != null)
-        
-        
-        {
-        if(this.cross[i] < this.cross[i-1])
-        {
+      //   {
+      //   if(this.cross[i] < this.cross[i-1])
+      //   {
           
-            var obj = dataObject[i-1]
-        }
-        else{
-          console.log("else oste");
+      //       var obj = dataObject[i-1]
+      //   }
+      //   else{
+      //     console.log("else oste");
           
-          obj = dataObject[i]
-        }
-      }
+      //     obj = dataObject[i]
+      //   }
+      // }
           
       
-      }
+      // }
 
-      console.log(obj , "SORTED ");
+//      console.log(obj , "SORTED ");
           
   
 
       // Build the tree nodes from Json object. The result is a list of `FileNode` with nested
       //     file node as children.
-      const data = this.buildFileTree(obj, 0);
+      const data = this.buildFileTree(dataObject, 0);
 
       // Notify the change.
       this.dataChange.next(data);
@@ -140,6 +144,7 @@ export class NavbarsComponent implements OnInit {
   nestedDataSource: MatTreeNestedDataSource<FileNode>;
   data_tree: any[] = [];
   temp1: any[] = [];
+  todo: Observable<{ id: string; }[]>;
 
   constructor(
     database: FileDatabase,
@@ -152,35 +157,62 @@ export class NavbarsComponent implements OnInit {
   ) {
     this.count = 0;
     this.todoCollectionRef = this.afs.collection<any>("localization");
+    console.log(this.todoCollectionRef , "mi amor");
     this.todo$ = this.todoCollectionRef.valueChanges();
+    this.todo = this.todoCollectionRef.snapshotChanges().pipe(map(actions =>
+      actions.map(a =>{
+        const id = a.payload.doc.id;
+        return {id}
+      })));
 
+      console.log(this.todo);
+      
+    
+    
+    
     this.nestedTreeControl = new NestedTreeControl<FileNode>(this._getChildren);
     this.nestedDataSource = new MatTreeNestedDataSource();
 
     database.dataChange.subscribe(
       (data) => (this.nestedDataSource.data = data)
     );
-       this.todo$.subscribe(res =>{
+
+    this.todo.subscribe((res) =>{
+      res.forEach(element => {
+        this.temp.push(element)
+      });
       
     })
+    
+
+  
+     
     this.todo$.subscribe((res) => {
       // res.forEach((element) => {
+        
+        
         this.data_tree =res;
         res.forEach(element => {
          
         });
+
+        var te = deepmerge.all(this.data_tree);
+        
+        console.log(te , 'my na');
+        
       // }); 
 
+      
 
        //The depth level specifying how deep a nested array structure should be flattened. Defaults to 1.
-
-       console.log(this.data_tree , "tree data");
-      TREE_DATA = JSON.stringify(this.data_tree);
+        
+      
+      TREE_DATA = JSON.stringify(te);
       
     });
   }
   
-
+  
   ngOnInit(): void {
     //  this.getUrlData()
     this.dynamicForm = this.formBuilder.group({
@@ -207,11 +239,10 @@ export class NavbarsComponent implements OnInit {
    
         for (let i = 0 ; i < this.data_tree.length; i++) {
             this.nestsort.push(Object.assign({}, ...function _flatten(o) { return [].concat(...Object.keys(o).map(k => typeof o[k] === 'object' ? _flatten(o[k]) : ({[k]: o[k]})))}(this.data_tree[i])))
-          console.log(this.nestsort , "makwat");
-          
-
+      
+                      
                     this.t.push(this.formBuilder.group({
-                    name: [this.nestsort[i][aisa]],   
+                    name: [this.nestsort[i][aisa]]  
             }));
         
         }
