@@ -14,6 +14,7 @@ import { NestedTreeControl } from "@angular/cdk/tree";
 import { ArrayType } from "@angular/compiler";
 import * as _ from 'lodash';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { AuthService } from '../auth.service';
 
 export class FileNode {
   children: FileNode[];
@@ -141,7 +142,8 @@ export class NavbarsComponent implements OnInit {
     private afs: AngularFirestore,
     private storage: AngularFireStorage,
     private treeService: TreeService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    public authService: AuthService
   ) {
     this.todoCollectionRef = this.afs.collection<any>("localization");
     this.todo$ = this.todoCollectionRef.valueChanges();
@@ -202,7 +204,7 @@ export class NavbarsComponent implements OnInit {
           
 
                     this.t.push(this.formBuilder.group({
-                name: [this.nestsort[i][aisa]],   
+                    name: [this.nestsort[i][aisa]],   
             }));
         }
     } else {
