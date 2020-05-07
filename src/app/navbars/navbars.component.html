@@ -22,8 +22,8 @@
 
   
  
-
-<mat-tree  [dataSource]="nestedDataSource" [treeControl]="nestedTreeControl" class="example-tree">
+<div class="example-tree">
+<mat-tree  [dataSource]="nestedDataSource" [treeControl]="nestedTreeControl" >
   
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
     <li class="mat-tree-node">
@@ -57,9 +57,12 @@
       </ul>
     </li>
   </mat-nested-tree-node>
-
 </mat-tree>
-
+<a mat-button color="primary" [disabled]="authService.isLoggedIn == false" style=" position: relative;
+display: inline-block;
+bottom: 0;
+left: 175px;"><span class="logout-btn fa fa-save"></span> Save</a>
+</div>
 <div *ngIf="showcontent" class="main-card">
 
   <form [formGroup]="dynamicForm" (change)="itemClick($event)">
@@ -91,6 +94,7 @@
                   </div>
               </div>
       </div> 
+      <a style="margin-left: 800px;" mat-button color="primary" [disabled]="authService.isLoggedIn == false"><span class="fa fa-save"></span> Save</a> 
   </mat-card>
 </form>
 
