@@ -13,7 +13,7 @@ import { MatTreeNestedDataSource } from "@angular/material/tree";
 import { NestedTreeControl } from "@angular/cdk/tree";
 import { ArrayType } from "@angular/compiler";
 import * as _ from 'lodash';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { deepEqual } from 'assert';
 import * as deepmerge from 'deepmerge';
@@ -128,6 +128,7 @@ export class NavbarsComponent implements OnInit {
   dynamicForm: FormGroup;
   submitted = false;
   public headers: any[] = [];
+  colorControl = new FormControl('accent');
   imageDetailList: AngularFireList<any>;
   types = [
     { value: "all", viewValue: "All" },
@@ -153,7 +154,8 @@ export class NavbarsComponent implements OnInit {
     private storage: AngularFireStorage,
     private treeService: TreeService,
     private formBuilder: FormBuilder,
-    public authService: AuthService
+    public authService: AuthService,
+    
   ) {
     this.count = 0;
     this.todoCollectionRef = this.afs.collection<any>("localization");
@@ -223,9 +225,12 @@ export class NavbarsComponent implements OnInit {
   get t() { return this.f.tickets as FormArray; }
 
   logout() {
-    this.router.navigateByUrl("");
+    this.authService.logout();
+    this.router.navigateByUrl('/login')
   }
-   
+  login(){
+    this.router.navigateByUrl('/login')
+  }
 
   itemClick(node) {
     this.nestsort = [];
@@ -244,11 +249,20 @@ export class NavbarsComponent implements OnInit {
                     this.t.push(this.formBuilder.group({
                     name: [this.nestsort[i][aisa]]  
             }));
-        
+            /* console.log(this.t.value,"hhadjakdaslda"); */
+            this.temp1 = this.t.value;
+            console.log(this.temp1,"temp111");
+            
         }
+      
+      
+        
+    } 
+        
+        
   
     
-  }
+  
   finditem ( arr , aisa , type)
   {
     for (let i = 0 ; i <arr.length; i++) {
