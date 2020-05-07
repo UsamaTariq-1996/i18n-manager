@@ -17,11 +17,15 @@ export class AuthService {
   constructor(private firebaseAuth: AngularFireAuth ,  private afs: AngularFirestore,
     private router: Router) {
     this.user = firebaseAuth.authState.pipe(
+      
       switchMap(user =>{
+        console.log("userdata",this.user);
         if(user)
         {
         this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
+        
+        
+        JSON.parse(localStorage.getItem('user'));
           return this.afs.doc<firebase.User>(`users/${user.uid}`).valueChanges(); 
         }
         else
@@ -34,7 +38,7 @@ export class AuthService {
 
    get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user'));
-    return (user !== null && user.emailVerified !== false) ? true : false;
+    return (user !== null && user.uid !== null) ? true : false;
   }
 
    async login(email : string , password : string)
@@ -43,6 +47,7 @@ export class AuthService {
      .auth
      .signInWithEmailAndPassword(email , password)
      .then(value =>{
+      localStorage.setItem('user', JSON.stringify(value));
        console.log("welcome User" , value.user.email , value.user.uid);
       this.updateUserData(value.user.email , value.user.uid)
      })
@@ -54,6 +59,7 @@ export class AuthService {
    logout()
    {
      this.firebaseAuth.auth.signOut();
+     localStorage.removeItem('user');
    }
    private updateUserData(email:string , uid) {
     // Sets user data to firestore on login

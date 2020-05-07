@@ -13,7 +13,7 @@ import { MatTreeNestedDataSource } from "@angular/material/tree";
 import { NestedTreeControl } from "@angular/cdk/tree";
 import { ArrayType } from "@angular/compiler";
 import * as _ from 'lodash';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { AuthService } from '../auth.service';
 
 export class FileNode {
@@ -121,6 +121,7 @@ export class NavbarsComponent implements OnInit {
   dynamicForm: FormGroup;
   submitted = false;
   public headers: any[] = [];
+  colorControl = new FormControl('accent');
   imageDetailList: AngularFireList<any>;
   types = [
     { value: "all", viewValue: "All" },
@@ -143,7 +144,8 @@ export class NavbarsComponent implements OnInit {
     private storage: AngularFireStorage,
     private treeService: TreeService,
     private formBuilder: FormBuilder,
-    public authService: AuthService
+    public authService: AuthService,
+    
   ) {
     this.todoCollectionRef = this.afs.collection<any>("localization");
     this.todo$ = this.todoCollectionRef.valueChanges();
@@ -182,9 +184,12 @@ export class NavbarsComponent implements OnInit {
   get t() { return this.f.tickets as FormArray; }
 
   logout() {
-    this.router.navigateByUrl("");
+    this.authService.logout();
+    this.router.navigateByUrl('/login')
   }
-   
+  login(){
+    this.router.navigateByUrl('/login')
+  }
 
   itemClick(node) {
     this.nestsort = [];
@@ -197,16 +202,22 @@ export class NavbarsComponent implements OnInit {
    const aisa = node.filename
     if (this.t.length <= this.data_tree.length) {
         for (let i = 0 ; i < this.data_tree.length; i++) {
-          this.temp1.push(this.finditem(this.data_tree , aisa , node.filename))
-        console.log(this.temp1 , "maeoo myjhga maoro");
+         
             this.nestsort.push(Object.assign({}, ...function _flatten(o) { return [].concat(...Object.keys(o).map(k => typeof o[k] === 'object' ? _flatten(o[k]) : ({[k]: o[k]})))}(this.data_tree[i])))
           console.log(this.nestsort , "makwat");
           
-
+          
                     this.t.push(this.formBuilder.group({
                     name: [this.nestsort[i][aisa]],   
             }));
+            /* console.log(this.t.value,"hhadjakdaslda"); */
+            this.temp1 = this.t.value;
+            console.log(this.temp1,"temp111");
+            
         }
+      
+      
+        
     } else {
         for (let i = this.t.length; i >= this.data_tree.length; i--) {
             this.t.removeAt(i);

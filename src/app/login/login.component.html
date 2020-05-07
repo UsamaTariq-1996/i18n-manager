@@ -5,7 +5,7 @@
     </mat-card-title>
     <mat-card-subtitle style="text-align: center; font-size: 20px; margin-top: 10px;">Login</mat-card-subtitle>
 <mat-card-content>
-<form (ngSubmit)="onSubmit()" *ngIf="!(authService.user | async)">
+<form (ngSubmit)="onSubmit()">
   <p>
     <mat-form-field>
       <input type="text" matInput [(ngModel)]="user.email" name="email" placeholder="Email">
@@ -21,13 +21,11 @@
 
   <div class="button">
     <button type="submit"  mat-button>Login</button>
-    <button (click)="mainPage()"  mat-button>Mainpage</button>
+    
   </div>
  
 </form>
-<div class="button">
-  <button type="submit" (click)="logout()" *ngIf="authService.user | async" mat-button>Logout</button>
-</div>
+
 
 </mat-card-content>
 </mat-card>

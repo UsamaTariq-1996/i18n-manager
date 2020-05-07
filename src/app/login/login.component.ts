@@ -22,15 +22,13 @@ export class LoginComponent implements OnInit {
    
   }
 
-  mainPage(){
-    this.router.navigateByUrl('')
-  }
+ 
   onSubmit(){
     this.authService.login(this.user.email , this.user.password)
     if(this.authService.user)
     {
       console.log("hello");
-      
+      setTimeout(()=>this.router.navigateByUrl(''),2000);
     }
     else{
       console.log("no hello");
