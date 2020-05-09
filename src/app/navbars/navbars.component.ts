@@ -18,6 +18,7 @@ import { AuthService } from '../auth.service';
 import { deepEqual } from 'assert';
 import * as deepmerge from 'deepmerge';
 import { map } from 'rxjs/operators';
+import { LanguagesService, GoogleObj } from '../services/languages.service';
 
 
 export class FileNode {
@@ -155,6 +156,7 @@ export class NavbarsComponent implements OnInit {
     private treeService: TreeService,
     private formBuilder: FormBuilder,
     public authService: AuthService,
+    private langService : LanguagesService
     
   ) {
     this.count = 0;
@@ -236,29 +238,54 @@ export class NavbarsComponent implements OnInit {
     this.nestsort = [];
     console.log(node.type, "game on ha");
     this.showcontent = true;
-    var i = 0
-     console.log(this.t.value, "asdasd");
-     this.t.clear()
-     
-   const aisa = node.filename
-   
-        for (let i = 0 ; i < this.data_tree.length; i++) {
-            this.nestsort.push(Object.assign({}, ...function _flatten(o) { return [].concat(...Object.keys(o).map(k => typeof o[k] === 'object' ? _flatten(o[k]) : ({[k]: o[k]})))}(this.data_tree[i])))
-      
-                      
-                    this.t.push(this.formBuilder.group({
-                    name: [this.nestsort[i][aisa]]  
-            }));
-            /* console.log(this.t.value,"hhadjakdaslda"); */
-            this.temp1 = this.t.value;
-            console.log(this.temp1,"temp111");
-            
-        }
-      
+    this.t.clear()
+      this.setinput(node.filename)
       
         
     } 
+
+    setinput(aisa)
+    {
+      var i = 0
+      console.log(this.t.value, "asdasd");
+      
+      
+    
+    
+         for (let i = 0 ; i < this.data_tree.length; i++) {
+             this.nestsort.push(Object.assign({}, ...function _flatten(o) { return [].concat(...Object.keys(o).map(k => typeof o[k] === 'object' ? _flatten(o[k]) : ({[k]: o[k]})))}(this.data_tree[i])))
+       
+                       
+                     this.t.push(this.formBuilder.group({
+                     name: [this.nestsort[i][aisa]]  
+             }));
+             /* console.log(this.t.value,"hhadjakdaslda"); */
+             this.temp1 = this.t.value;
+             console.log(this.temp1,"temp111");
+             
+         }
+    
+    }
         
+    myname(event)
+    {
+      console.log(event , "lnag");
+     
+      const googleObj: GoogleObj = {
+        q: this.temp1[0].name,
+        target: "es" ,
+        source: "en" , 
+        };
+      this.langService.translate(googleObj).subscribe(res => {
+        console.log(res);
+         
+      var str = res.data.translations[0].translatedText;
+      console.log(str , 'lingo');
+      
+          })
+
+
+    }
         
   
     
