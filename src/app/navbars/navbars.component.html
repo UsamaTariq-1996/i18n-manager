@@ -80,7 +80,7 @@ left: 175px;"><span class="logout-btn fa fa-save"></span> Save</a>
                       <input matInput type="text" placeholder="Name" formControlName="name" class="form-control"/>
                       <!-- <mat-hint >Errors appear instantly!</mat-hint> -->
                     </mat-form-field>
-                    <mat-form-field *ngIf="temp1[i].name == null" [color]="colorControl.value"  appearance="outline" style="width: 95%;">
+                    <mat-form-field *ngIf="temp1[i].name == null || ''" [color]="colorControl.value"  appearance="outline" style="width: 95%;">
                       <mat-label>{{temp[i].id }}</mat-label>
                       <input matInput type="text" placeholder="Name"  formControlName="name" class="form-control">
                     
@@ -90,12 +90,12 @@ left: 175px;"><span class="logout-btn fa fa-save"></span> Save</a>
                     </button>
                     <mat-menu #menu="matMenu">
                       <button mat-menu-item disabled>Translate from</button>
-                      <button *ngFor="let tem of temp" mat-menu-item (click)= "myname(i)"> {{tem.id}}</button>
+                      <button *ngFor="let tem of temp ; let f = index" mat-menu-item (click)= "myname(i , f)"> {{tem.id}}</button>
                     </mat-menu>
                   </div>
               </div>
       </div> 
-      <a style="margin-left: 800px;" mat-button color="primary" [disabled]="authService.isLoggedIn == false"><span class="fa fa-save"></span> Save</a> 
+      <a style="margin-left: 800px;" mat-button color="primary" (click)=setinput() [disabled]="authService.isLoggedIn == false"><span class="fa fa-save"></span> Save</a> 
   </mat-card>
 </form>
 

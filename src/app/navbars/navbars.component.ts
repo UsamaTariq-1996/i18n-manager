@@ -147,7 +147,7 @@ export class NavbarsComponent implements OnInit {
   data_tree: any[] = [];
   temp1: any[] = [];
   todo: Observable<{ id: string; }[]>;
-
+  getnode : any;
   constructor(
     database: FileDatabase,
     private router: Router,
@@ -235,18 +235,15 @@ export class NavbarsComponent implements OnInit {
   }
 
   itemClick(node) {
+    console.log(node , "events");
+    
     this.nestsort = [];
     console.log(node.type, "game on ha");
     this.showcontent = true;
     this.t.clear()
-      this.setinput(node.filename)
-      
-        
-    } 
-
-    setinput(aisa)
-    {
       var i = 0
+      var aisa = node.filename
+      this.getnode = node.filename;
       console.log(this.t.value, "asdasd");
       
       
@@ -261,29 +258,63 @@ export class NavbarsComponent implements OnInit {
              }));
              /* console.log(this.t.value,"hhadjakdaslda"); */
              this.temp1 = this.t.value;
-             console.log(this.temp1,"temp111");
+             console.log(this.nestsort[i][aisa],"temp111");
              
          }
-    
-    }
+  
         
-    myname(event )
+    } 
+
+    setinput()
     {
-      console.log(event , "lnag");
-     
+    //  var i = 0;
+    console.log(this.getnode , "nodename");
+    
+      for(let i = 0 ; i < this.data_tree.length ; i++)
+      {
+        console.log(this.temp[i].id);
+        
+       var updateRef = this.todoCollectionRef.doc(this.temp[i].id).update({
+      [this.getnode] :  this.temp1[i].name
+      })
+       }
+    }
+
+   
+        
+    myname(event , event2 )
+    {
+      console.log(event , this.temp1[event2].name , "lnag");
+      var sourcelang = this.temp[event2].id;
+      var targetlang = this.temp[event].id;
+      
+      var sourceex = /[^-]*$/g;
+      var targetex = /[^-]*$/g;
+      var sourceresult = sourceex.exec(sourcelang);
+      var targetresult = targetex.exec(targetlang);
+      console.log(targetresult , "maro");
+      
+    
+     // console.log(ex , "asdasd");
+      
       const googleObj: GoogleObj = {
-        q: this.temp1[0].name,
-        target: "es" ,
-        source: "en" , 
+        q: this.temp1[event2].name,
+        target: targetresult[0] ,
+        source: sourceresult[0] , 
         };
       this.langService.translate(googleObj).subscribe(res => {
         console.log(res);
          
       var str = res.data.translations[0].translatedText;
       this.t.at(event).get('name').patchValue(str)
-      
+      this.temp1 = [];
+      this.temp1 = this.t.value;
+      console.log(this.temp1 , "temper");
       
           })
+
+
+          
 
 
     }
