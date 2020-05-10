@@ -267,7 +267,7 @@ export class NavbarsComponent implements OnInit {
     
     }
         
-    myname(event)
+    myname(event )
     {
       console.log(event , "lnag");
      
@@ -280,7 +280,8 @@ export class NavbarsComponent implements OnInit {
         console.log(res);
          
       var str = res.data.translations[0].translatedText;
-      console.log(str , 'lingo');
+      this.t.at(event).get('name').patchValue(str)
+      
       
           })
 
