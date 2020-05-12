@@ -84,7 +84,7 @@ export class FileDatabase {
 
       // Notify the change.
       this.dataChange.next(data);
-    }, 2000);
+    }, 4000);
   }
 
   /**
@@ -212,6 +212,8 @@ export class NavbarsComponent implements OnInit {
         
       
       TREE_DATA = JSON.stringify(te);
+      console.log(TREE_DATA , "new log");
+      
       
     });
   }
@@ -265,10 +267,12 @@ export class NavbarsComponent implements OnInit {
         
     } 
 
-    setinput()
+    onSubmit(event)
     {
+     console.log(event , 'submitvalues');
+     this.temp1 = event.tickets
     //  var i = 0;
-    console.log(this.getnode , "nodename");
+    console.log(this.temp1 , "nodename");
     
       for(let i = 0 ; i < this.data_tree.length ; i++)
       {
