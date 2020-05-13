@@ -17,7 +17,7 @@ import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@ang
 import { AuthService } from '../auth.service';
 import { deepEqual } from 'assert';
 import * as deepmerge from 'deepmerge';
-import { map } from 'rxjs/operators';
+import { map, retry } from 'rxjs/operators';
 import { LanguagesService, GoogleObj } from '../services/languages.service';
 
 
@@ -148,6 +148,7 @@ export class NavbarsComponent implements OnInit {
   temp1: any[] = [];
   todo: Observable<{ id: string; }[]>;
   getnode : any;
+  upData: object;
   constructor(
     database: FileDatabase,
     private router: Router,
@@ -202,8 +203,7 @@ export class NavbarsComponent implements OnInit {
 
         var te = deepmerge.all(this.data_tree);
         
-        console.log(te , 'my na');
-        
+       this.upData = te; 
       // }); 
 
       
@@ -238,6 +238,7 @@ export class NavbarsComponent implements OnInit {
 
   itemClick(node) {
     console.log(node , "events");
+    console.log(localStorage.getItem('user') , "main");
     
     this.nestsort = [];
     console.log(node.type, "game on ha");
@@ -269,20 +270,54 @@ export class NavbarsComponent implements OnInit {
 
     onSubmit(event)
     {
+      var nesteds = null ;
      console.log(event , 'submitvalues');
      this.temp1 = event.tickets
     //  var i = 0;
-    console.log(this.temp1 , "nodename");
-    
-      for(let i = 0 ; i < this.data_tree.length ; i++)
-      {
-        console.log(this.temp[i].id);
-        
-       var updateRef = this.todoCollectionRef.doc(this.temp[i].id).update({
-      [this.getnode] :  this.temp1[i].name
-      })
-       }
+      
+      var str = this.temp1[0].name;
+      console.log(this.upData , "main");
+   //nesteds =  this.findPath(str , this.upData);
+   for(let j = 0 ; j < this.temp1.length ; j++)
+   {
+    if(this.temp1[j] != null  && nesteds == null )
+    {
+      nesteds = this.findPath(this.temp1[j].name , this.upData)
     }
+
+   }
+    console.log(nesteds   , "finder");
+    
+    //   for(let i = 0 ; i < this.data_tree.length ; i++)
+    //   {
+        
+    //     if(nesteds != "" || nesteds != null)
+    //     {
+    //         var updateRef = this.todoCollectionRef.doc(this.temp[i].id).update({
+    //           [`${nesteds[0]}.${nesteds[1]}`] :  this.temp1[i].name 
+    //           })
+          
+    //     }
+    //     else{
+
+    //    var updateRef = this.todoCollectionRef.doc(this.temp[i].id).update({
+    //   [this.getnode] :  this.temp1[i].name 
+    //   })
+    // }
+    //    }
+    }
+
+     findPath(a, obj) {
+      function iter(o, p) {
+          return Object.keys(o).some(function (k) {
+              result = p.concat(Array.isArray(o) ? +k : k);
+              return o[k] === a || o[k] && typeof o[k] === 'object' && iter(o[k], result);
+          });
+      }
+      var result;
+      return iter(obj, []) && result || undefined;
+  }
+
 
    
         
@@ -326,14 +361,7 @@ export class NavbarsComponent implements OnInit {
   
     
   
-  finditem ( arr , aisa , type)
-  {
-    for (let i = 0 ; i <arr.length; i++) {
-          return arr[i][aisa];
-          
-      
-  }
-}
+ 
   //  getUrlData()
   // {
 
