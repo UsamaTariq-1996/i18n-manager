@@ -288,23 +288,43 @@ export class NavbarsComponent implements OnInit {
    }
     console.log(nesteds   , "finder");
     
-    //   for(let i = 0 ; i < this.data_tree.length ; i++)
-    //   {
+      for(let i = 0 ; i < this.data_tree.length ; i++)
+      {
         
-    //     if(nesteds != "" || nesteds != null)
-    //     {
-    //         var updateRef = this.todoCollectionRef.doc(this.temp[i].id).update({
-    //           [`${nesteds[0]}.${nesteds[1]}`] :  this.temp1[i].name 
-    //           })
+        if(nesteds != "" || nesteds != null)
+        {
+          if(nesteds.length == 1)
+          {
+            var updateRef = this.todoCollectionRef.doc(this.temp[i].id).update({
+              [this.getnode] :  this.temp1[i].name 
+              })
+          }
+          else if (nesteds.length == 2)
+          {
+            var updateRef = this.todoCollectionRef.doc(this.temp[i].id).update({
+              [`${nesteds[0]}.${nesteds[1]}`] :  this.temp1[i].name 
+              })
+          }
+          else if (nesteds.length == 3)
+          {
+            var updateRef = this.todoCollectionRef.doc(this.temp[i].id).update({
+              [`${nesteds[0]}.${nesteds[1]}.${nesteds[2]}`] :  this.temp1[i].name 
+              })
+          }
+          else if (nesteds.length == 4)
+          {
+            var updateRef = this.todoCollectionRef.doc(this.temp[i].id).update({
+              [`${nesteds[0]}.${nesteds[1]}.${nesteds[2]}.${nesteds[3]}`] :  this.temp1[i].name 
+              })
+          } 
           
-    //     }
-    //     else{
+        }
+        else{
 
-    //    var updateRef = this.todoCollectionRef.doc(this.temp[i].id).update({
-    //   [this.getnode] :  this.temp1[i].name 
-    //   })
-    // }
-    //    }
+      console.log("multiple errors");
+      
+    }
+       }
     }
 
      findPath(a, obj) {
