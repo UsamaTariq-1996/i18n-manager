@@ -26,6 +26,7 @@ import * as deepmerge from "deepmerge";
 import { map, retry } from "rxjs/operators";
 import { LanguagesService, GoogleObj } from "../services/languages.service";
 import { element } from 'protractor';
+import { auth } from 'firebase';
 
 export class FileNode {
   children: FileNode[];
@@ -249,8 +250,12 @@ export class NavbarsComponent implements OnInit {
 
   itemClick(node) {
     console.log(node, "events");
-    console.log(this.langArr[0].edit_right, "authentication");
-    var rights = this.langArr[0].edit_right;
+   // console.log(this.langArr[0].edit_right, "authentication");
+    if(this.authService.isLoggedIn)
+    {
+      var rights = this.langArr[0].edit_right;
+      
+    }
     this.nestsort = [];
     console.log(node.type, "game on ha");
     this.showcontent = true;
@@ -275,53 +280,65 @@ export class NavbarsComponent implements OnInit {
           })(this.data_tree[i])
         )
       );
- 
-      var user;
+ if(this.authService.isLoggedIn)
+ {
+  var user;
      
-        user = this.temp[i].id;
-        var check
-        if (rights.indexOf(user) >= 0) {
-        check = false;
-          console.log(user + ' is a good user');
-        } else {
-          console.log(user + ' is BAD!!!');
-          check= true
-        }
-      
-      // rights.forEach((element) => {
-      //   console.log(element);
-        
-      //   if (element == this.temp[i].id) {
-      //     check = false;
-         
-      //     console.log(element , "is equal to " , this.temp[i].id);
-          
+  user = this.temp[i].id;
+  var check
+  if (rights.indexOf(user) >= 0) {
+  check = false;
+    console.log(user + ' is a good user');
+  } else {
+    console.log(user + ' is BAD!!!');
+    check= true
+  }
+
+// rights.forEach((element) => {
+//   console.log(element);
   
-      //   }
-        
-      //    else if (element != this.temp[i].id) {
-      //     check = true;
-         
-      //     console.log(element , "is not to " , this.temp[i].id);
-      //   }
-      //   else{
-      //     check = true
-      //   }
+//   if (element == this.temp[i].id) {
+//     check = false;
+   
+//     console.log(element , "is equal to " , this.temp[i].id);
+    
 
-        
-      // });
+//   }
+  
+//    else if (element != this.temp[i].id) {
+//     check = true;
+   
+//     console.log(element , "is not to " , this.temp[i].id);
+//   }
+//   else{
+//     check = true
+//   }
+
+  
+// });
 
 
 
-      
-      this.t.push(
-        this.formBuilder.group({
-          name: { value: [this.nestsort[i][aisa]], disabled: check },
-        })
-      );
-      
-      
 
+this.t.push(
+  this.formBuilder.group({
+    name: { value: [this.nestsort[i][aisa]], disabled: check },
+  })
+);
+
+
+
+ }
+
+ else 
+ {
+  this.t.push(
+    this.formBuilder.group({
+      name: [this.nestsort[i][aisa]],
+    })
+  );
+ }
+  
       /* console.log(this.t.value,"hhadjakdaslda"); */
      this.temp1 = this.t.value;
       //console.log(this.temp1, "temp111");
