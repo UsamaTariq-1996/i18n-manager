@@ -61,6 +61,7 @@ export class AuthService {
    {
      this.firebaseAuth.auth.signOut();
      localStorage.removeItem('user');
+     localStorage.removeItem('uid')
    }
    private updateUserData(email:string , uid) {
     // Sets user data to firestore on login
