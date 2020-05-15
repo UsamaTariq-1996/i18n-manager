@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
+  
   constructor(public authService : AuthService,private router: Router) { }
   
   user = {
@@ -16,13 +16,13 @@ export class LoginComponent implements OnInit {
     password: '',
   }
   
-
+ 
   ngOnInit(): void {
 
    
   }
 
- 
+  
   onSubmit(){
     this.authService.login(this.user.email , this.user.password)
     if(this.authService.user)

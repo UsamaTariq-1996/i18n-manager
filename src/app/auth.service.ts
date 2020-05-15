@@ -48,6 +48,7 @@ export class AuthService {
      .signInWithEmailAndPassword(email , password)
      .then(value =>{
       localStorage.setItem('user', JSON.stringify(value));
+      localStorage.setItem('uid',value.user.uid);
        console.log("welcome User" , value.user.email , value.user.uid);
       this.updateUserData(value.user.email , value.user.uid)
      })
