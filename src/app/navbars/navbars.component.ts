@@ -123,11 +123,13 @@ export class FileDatabase {
 })
 export class NavbarsComponent implements OnInit {
   todoCollectionRef: AngularFirestoreCollection<any>;
+  userCollectionRef: AngularFirestoreCollection<any>;
   todo$: Observable<any[]>;
   fileList: any[];
   showcontent: boolean = false;
   dynamicForm: FormGroup;
   submitted = false;
+ 
   public headers: any[] = [];
   colorControl = new FormControl('accent');
   imageDetailList: AngularFireList<any>;
@@ -141,14 +143,21 @@ export class NavbarsComponent implements OnInit {
   JsonArray: any;
   jsonurl: any;
   temp: any[] = [];
+  userTemp:any[] = [];
   nestsort : any[] = []
   nestedTreeControl: NestedTreeControl<FileNode>;
   nestedDataSource: MatTreeNestedDataSource<FileNode>;
   data_tree: any[] = [];
   temp1: any[] = [];
+  
   todo: Observable<{ id: string; }[]>;
+  userTodo: Observable<{ id: string; }[]>;
   getnode : any;
+<<<<<<< HEAD
+  langArr: any;
+=======
   upData: object;
+>>>>>>> 4237c4e0c3b84c40327d0e1abe4a58d8e4c0b4e5
   constructor(
     database: FileDatabase,
     private router: Router,
@@ -160,9 +169,11 @@ export class NavbarsComponent implements OnInit {
     private langService : LanguagesService
     
   ) {
+   
     this.count = 0;
     this.todoCollectionRef = this.afs.collection<any>("localization");
     console.log(this.todoCollectionRef , "mi amor");
+    console.log(this.userCollectionRef , "user collection ref");
     this.todo$ = this.todoCollectionRef.valueChanges();
     this.todo = this.todoCollectionRef.snapshotChanges().pipe(map(actions =>
       actions.map(a =>{
@@ -171,17 +182,32 @@ export class NavbarsComponent implements OnInit {
       })));
 
       console.log(this.todo);
-      
-    
-    
-    
+     
+        console.log(this.userTodo,"User todo");  
+        if(authService.isLoggedIn){
+          
+          var userArr = localStorage.getItem('uid');
+          console.log(userArr,"user uid check")
+          var userCollectionRef = this.afs.collection<any>('users').doc(userArr);
+
+          userCollectionRef.get().subscribe(function(doc) {
+            if (doc.exists) {
+                 this.langArr = doc.data();
+                console.log("Document data:", this.langArr);
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        })
+      }
+     
     this.nestedTreeControl = new NestedTreeControl<FileNode>(this._getChildren);
     this.nestedDataSource = new MatTreeNestedDataSource();
 
     database.dataChange.subscribe(
       (data) => (this.nestedDataSource.data = data)
     );
-
+    
     this.todo.subscribe((res) =>{
       res.forEach(element => {
         this.temp.push(element)
@@ -189,7 +215,7 @@ export class NavbarsComponent implements OnInit {
       
     })
     
-
+  
   
      
     this.todo$.subscribe((res) => {
@@ -341,15 +367,15 @@ export class NavbarsComponent implements OnInit {
 
    
         
-    myname(event , event2 )
+    myname(event)
     {
-      console.log(event , this.temp1[event2].name , "lnag");
-      var sourcelang = this.temp[event2].id;
+      //console.log(event , this.temp1[event2].name , "lnag");
+     // var sourcelang = this.temp[event2].id;
       var targetlang = this.temp[event].id;
       
-      var sourceex = /[^-]*$/g;
+      //var sourceex = /[^-]*$/g;
       var targetex = /[^-]*$/g;
-      var sourceresult = sourceex.exec(sourcelang);
+      //var sourceresult = sourceex.exec(sourcelang);
       var targetresult = targetex.exec(targetlang);
       console.log(targetresult , "maro");
       
@@ -357,9 +383,9 @@ export class NavbarsComponent implements OnInit {
      // console.log(ex , "asdasd");
       
       const googleObj: GoogleObj = {
-        q: this.temp1[event2].name,
+        q: this.temp1[0].name,
         target: targetresult[0] ,
-        source: sourceresult[0] , 
+        source: 'en' , 
         };
       this.langService.translate(googleObj).subscribe(res => {
         console.log(res);
