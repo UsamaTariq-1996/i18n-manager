@@ -153,11 +153,8 @@ export class NavbarsComponent implements OnInit {
   todo: Observable<{ id: string; }[]>;
   userTodo: Observable<{ id: string; }[]>;
   getnode : any;
-<<<<<<< HEAD
   langArr: any;
-=======
   upData: object;
->>>>>>> 4237c4e0c3b84c40327d0e1abe4a58d8e4c0b4e5
   constructor(
     database: FileDatabase,
     private router: Router,
